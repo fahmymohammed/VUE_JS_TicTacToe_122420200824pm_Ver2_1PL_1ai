@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link href=".\\lib\bootstrap\dist\css\bootstrap.css" rel="stylesheet" />
+    <link href=".\\css\site.css" rel="stylesheet" />
+    <script src=".\\js\Game.js"></script>
+    <script src=".\\lib\vue\dist\vue.js"></script>
+    <title>Tic Tac Toe</title>
+</head>
+<body>
+    <h1 class="text-center welcome text-primary">Welcome to the Game</h1>
+    <div id="main-view">
+        <div id="main-result">
+            <div id="main-view-info">
+                Result
+            </div>
+            <div id="main-view-cells-result">
+                <div class="main-view-cell-result">
+                    {{resultForO}}
+                </div>
+                <div class="main-view-cell-result">
+                    {{resultForX}}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center">
+        <button class="btn btn-primary" type="button" @click="newRound()" >New Game</button>
+        </div>
+
+        <div id="main-view-info">
+            {{userMessage}}
+        </div>
+        <div id="main-view-cells">
+            <div v-for="(cell, i) in cells"
+                 @click="makeMove(i)"
+                 v-bind:class="{highlighted : cell.isHighLighted}"
+                 class="main-view-cell">
+                {{cell.value}}
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script type="text/javascript">
+        let activeGame = new TicTacToe();
+
+        let gameVue = new Vue({
+            el: '#main-view',
+            data: activeGame,
+            computed: {
+                userMessage: function () {
+                    if (this.inProgress) {
+                        return `It's ` + this.currentTurn + ` Turn`;
+                    }
+                    if (this.winner) {
+                        return `Congratulations, ` + this.winner + ` is the Winner`
+
+                    }
+                    if (!this.winner && !this.inProgress) {
+                        return `oh oh oh, it's a tie`;
+                    }
+                },
+                resultForO: function () {
+                    return this.totalWinsForO;
+                },
+                resultForX: function () {
+                    return this.totalWinsForX;
+                },
+
+            }
+        });
+
+    </script>
+
+</body>
+</html>
